@@ -13,6 +13,7 @@ import './link';
 import './dynamic_link';
 import './text';
 import './code';
+import './json_object';
 import './text_editor';
 import './comment';
 import './check';
@@ -43,6 +44,10 @@ import './icon';
 
 frappe.ui.form.make_control = function (opts) {
 	var control_class_name = "Control" + opts.df.fieldtype.replace(/ /g, "");
+	if (opts.df.fieldtype == 'JSON Object') {
+		console.log(opts)
+	}
+
 	if(frappe.ui.form[control_class_name]) {
 		return new frappe.ui.form[control_class_name](opts);
 	} else {

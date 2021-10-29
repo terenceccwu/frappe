@@ -32,6 +32,7 @@ class MariaDBDatabase(Database):
 			'Long Text':	('longtext', ''),
 			'Code':			('longtext', ''),
 			'Text Editor':	('longtext', ''),
+			'JSON Object':	('longtext', ''),
 			'Markdown Editor':	('longtext', ''),
 			'HTML Editor':	('longtext', ''),
 			'Date':			('date', ''),
