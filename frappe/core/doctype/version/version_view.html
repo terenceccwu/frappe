@@ -18,8 +18,14 @@
 		{% for item in data.changed %}
 		<tr>
 			<td>{{ frappe.meta.get_label(doc.ref_doctype, item[0]) }}</td>
-			<td class="danger">{{ item[1] }}</td>
-			<td class="success">{{ item[2] }}</td>
+			{% if typeof item[1] === 'object' %}
+				<td class="danger"><pre>{{ JSON.stringify(item[1], null, 2) }}</pre></td>
+				<td class="success"><pre>{{ JSON.stringify(item[2], null, 2) }}</pre></td>
+			{% else %}
+				<td class="danger">{{ item[1] }}</td>
+				<td class="success">{{ item[2] }}</td>
+			{% endif %}
+			
 		</tr>
 		{% endfor %}
 	</tbody>

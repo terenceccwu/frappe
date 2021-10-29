@@ -2,6 +2,7 @@
 # License: MIT. See LICENSE
 import frappe
 import datetime
+import json
 from frappe import _
 from frappe.model import default_fields, table_fields
 from frappe.model.naming import set_new_name
@@ -237,7 +238,7 @@ class BaseDocument(object):
 
 		return value
 
-	def get_valid_dict(self, sanitize=True, convert_dates_to_str=False, ignore_nulls = False):
+	def get_valid_dict(self, sanitize=True, convert_dates_to_str=False, convert_json_to_str=False, ignore_nulls = False):
 		d = frappe._dict()
 		for fieldname in self.meta.get_valid_columns():
 			d[fieldname] = self.get(fieldname)
@@ -274,6 +275,9 @@ class BaseDocument(object):
 				datetime.timedelta
 			)):
 				d[fieldname] = str(d[fieldname])
+
+			if convert_json_to_str and isinstance(d[fieldname], dict):
+				d[fieldname] = json.dumps(d[fieldname])
 
 			if d[fieldname] == None and ignore_nulls:
 				del d[fieldname]
@@ -356,7 +360,7 @@ class BaseDocument(object):
 			self.created_by = self.modified_by = frappe.session.user
 
 		# if doctype is "DocType", don't insert null values as we don't know who is valid yet
-		d = self.get_valid_dict(convert_dates_to_str=True, ignore_nulls = self.doctype in DOCTYPES_FOR_DOCTYPE)
+		d = self.get_valid_dict(convert_dates_to_str=True, convert_json_to_str=True, ignore_nulls = self.doctype in DOCTYPES_FOR_DOCTYPE)
 
 		columns = list(d)
 		try:
@@ -394,7 +398,7 @@ class BaseDocument(object):
 			self.db_insert()
 			return
 
-		d = self.get_valid_dict(convert_dates_to_str=True, ignore_nulls = self.doctype in DOCTYPES_FOR_DOCTYPE)
+		d = self.get_valid_dict(convert_dates_to_str=True, convert_json_to_str=True, ignore_nulls = self.doctype in DOCTYPES_FOR_DOCTYPE)
 
 		# don't update name, as case might've been changed
 		name = d['name']

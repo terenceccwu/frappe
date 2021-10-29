@@ -35,7 +35,8 @@ data_fieldtypes = (
 	'Barcode',
 	'Geolocation',
 	'Duration',
-	'Icon'
+	'Icon',
+	'JSON Object'
 )
 
 no_value_fields = (

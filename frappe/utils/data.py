@@ -550,6 +550,9 @@ def cast_fieldtype(fieldtype, value, show_warning=True):
 		"Text Editor", "Select", "Link", "Dynamic Link"):
 		value = cstr(value)
 
+	elif fieldtype == "JSON Object":
+		value = json.loads(value)
+
 	elif fieldtype == "Date":
 		value = getdate(value)
 
@@ -583,6 +586,9 @@ def cast(fieldtype, value=None):
 	elif fieldtype in ("Data", "Text", "Small Text", "Long Text",
 		"Text Editor", "Select", "Link", "Dynamic Link"):
 		value = cstr(value)
+
+	elif fieldtype == "JSON Object":
+		value = json.loads(value)
 
 	elif fieldtype == "Date":
 		if value:
