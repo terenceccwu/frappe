@@ -155,9 +155,10 @@ class Document(BaseDocument):
 			super(Document, self).__init__(d)
 
 			# critical
-			for df in self.meta.get("fields"):
-				if df.fieldtype == "JSON Object":
-					self.set(df.fieldname, json.loads(self.get(df.fieldname) or 'null'))
+			if not (self.name=="DocType" and self.doctype=="DocType"):
+				for df in self.meta.get("fields"):
+					if df.fieldtype == "JSON Object":
+						self.set(df.fieldname, json.loads(self.get(df.fieldname) or 'null'))
 
 		if self.name=="DocType" and self.doctype=="DocType":
 			from frappe.model.meta import DOCTYPE_TABLE_FIELDS
