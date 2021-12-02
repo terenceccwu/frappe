@@ -277,7 +277,7 @@ class BaseDocument(object):
 				d[fieldname] = str(d[fieldname])
 
 			if convert_json_to_str and isinstance(d[fieldname], dict):
-				d[fieldname] = json.dumps(d[fieldname])
+				d[fieldname] = json.dumps(d[fieldname], default=str)
 
 			if d[fieldname] == None and ignore_nulls:
 				del d[fieldname]
